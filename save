@@ -1,0 +1,94 @@
+document.addEventListener("DOMContentLoaded", function() {
+  const playerText = document.querySelector("#playerText");
+  const computerText = document.querySelector("#computerText");
+  const resultText = document.querySelector("#resultText");
+  const startState = document.querySelector("#startState");
+  const gameState = document.querySelector("#gameState");
+  const endState = document.querySelector("#endState");
+  const letsGoButton = document.querySelector("#letsGo");
+  const playAgainButton = document.querySelector("#playAgain");
+  
+  let player;
+  let computer;
+  
+  function toGameState() {
+      startState.style.display = "none";
+      gameState.style.display = "block";
+      endState.style.display = "none";
+  }
+
+  function toEndState() {
+      startState.style.display = "none";
+      gameState.style.display = "none";
+      endState.style.display = "block";
+  }
+
+  function toStartState() {
+      startState.style.display = "block";
+      gameState.style.display = "none";
+      endState.style.display = "none";
+  }
+  // Game logic when a choice (Rock, Paper, Scissors) is clicked
+  function playGame(choice) {
+    player = choice;
+    computerTurn(); 
+    playerText.textContent = `Player: ${player}`; // Show Player choice
+    computerText.textContent = `Computer: ${computer}`; // Show Computer choice
+    resultText.textContent = checkWinner(); // Show Game result
+    toEndState();
+}
+  playButton.addEventListener("click", () => {
+    player = userChoiceInput.value.trim().toUpperCase();
+    if (player === "ROCK" || player === "PAPER" || player === "SCISSORS") {
+        computerTurn();
+        switch(player) {
+            case "ROCK":
+                playerText.textContent = "Player: 🪨";
+                break;
+            case "PAPER":
+                playerText.textContent = "Player: 📄";
+                break;
+            case "SCISSORS":
+                playerText.textContent = "Player: ✂️";
+                break;
+        }
+        resultText.textContent = checkWinner();
+    } else {
+        resultText.textContent = "Invalid choice. Please enter Rock, Paper, or Scissors.";
+    }
+    toEndState();
+});
+
+  function computerTurn() {
+    const randNum = Math.floor(Math.random() * 3) + 1;
+    switch (randNum) {
+        case 1:
+            computer = "ROCK";
+            computerText.textContent = "Computer: 🪨";
+            break;
+        case 2:
+            computer = "PAPER";
+            computerText.textContent = "Computer: 📄";
+            break;
+        case 3:
+            computer = "SCISSORS";
+            computerText.textContent = "Computer: ✂️";
+            break;
+    }
+}
+  function checkWinner() {
+      if (player === computer) {
+          return "Draw!";
+      } else if (computer === "ROCK") {
+          return player === "PAPER" ? "You Win!" : "You Lose!";
+      } else if (computer === "PAPER") {
+          return player === "SCISSORS" ? "You Win!" : "You Lose!";
+      } else if (computer === "SCISSORS") {
+          return player === "ROCK" ? "You Win!" : "You Lose!";
+      }
+  }
+  letsGoButton.addEventListener("click", toGameState);
+  playAgainButton.addEventListener("click", toStartState);
+  
+  toStartState();
+});
